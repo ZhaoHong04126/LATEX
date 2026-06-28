@@ -1084,6 +1084,10 @@ a:hover {
   font-size: 1.15rem;
   overflow-x: auto;
   max-width: 100%;
+  scrollbar-width: none; /* Firefox */
+}
+.katex-rendered-inline::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }
 
 .code-block {
