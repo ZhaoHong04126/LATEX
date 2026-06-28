@@ -1,0 +1,1427 @@
+/* ==========================================================================
+   LaTeX 資源網 - 全域樣式與設計系統
+   ========================================================================== */
+
+/* 1. 設計變數與 CSS 變數定義 */
+:root {
+  /* 淺色模式變數 (Paper Academic) */
+  --bg-primary: #fcfcf9;
+  --bg-secondary: #f4f4ee;
+  --bg-tertiary: #ebebe3;
+  --text-primary: #1e293b;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  
+  --accent-primary: #2563eb;       /* 皇家藍 */
+  --accent-secondary: #4f46e5;     /* 靛藍 */
+  --accent-glow: rgba(37, 99, 235, 0.1);
+  --border-color: #e2e8f0;
+  --border-focus: #cbd5e1;
+  --card-bg: #ffffff;
+  --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  --card-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+  
+  /* 程式碼與公式樣式 */
+  --code-bg: #1e1e24;
+  --code-text: #f8f8f2;
+  --math-bg: #f8fafc;
+  --math-border: #e2e8f0;
+  
+  /* 字型族群 */
+  --font-sans: 'Inter', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-serif: 'Lora', Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-mono: 'Fira Code', 'JetBrains Mono', Courier, monospace;
+}
+
+body.dark {
+  /* 深色模式變數 (Cosmic Scientific) */
+  --bg-primary: #0b0f19;
+  --bg-secondary: #111827;
+  --bg-tertiary: #1f2937;
+  --text-primary: #f3f4f6;
+  --text-secondary: #d1d5db;
+  --text-muted: #9ca3af;
+  
+  --accent-primary: #6366f1;       /* 靛紫 */
+  --accent-secondary: #818cf8;     /* 亮紫 */
+  --accent-glow: rgba(99, 102, 241, 0.15);
+  --border-color: #374151;
+  --border-focus: #4b5563;
+  --card-bg: #131b2e;
+  --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  --card-shadow-hover: 0 10px 20px -3px rgba(0, 0, 0, 0.4), 0 4px 12px -2px rgba(0, 0, 0, 0.3);
+  
+  --code-bg: #090d16;
+  --code-text: #e2e8f0;
+  --math-bg: #0e1626;
+  --math-border: #1e293b;
+}
+
+/* 2. 基本重設與捲動軸 */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
+}
+
+/* 自訂捲動軸 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+a {
+  color: var(--accent-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+a:hover {
+  color: var(--accent-secondary);
+}
+
+/* 3. LaTeX 經典標誌樣式 */
+.latex-logo {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  letter-spacing: -0.05em;
+  display: inline-flex;
+  align-items: baseline;
+}
+.latex-logo span.L {
+  font-size: 1.1em;
+  margin-right: -0.1em;
+}
+.latex-logo span.A {
+  font-size: 0.75em;
+  text-transform: uppercase;
+  position: relative;
+  top: -0.28em;
+  margin-right: -0.15em;
+  margin-left: -0.1em;
+}
+.latex-logo span.T {
+  margin-right: -0.05em;
+}
+.latex-logo span.E {
+  font-size: 1.0em;
+  position: relative;
+  top: 0.15em;
+  margin-right: -0.05em;
+  margin-left: -0.1em;
+}
+.latex-logo span.X {
+  font-size: 1.0em;
+}
+
+/* 4. 佈局元件 */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* 導覽列 */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: rgba(252, 252, 249, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-color);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+body.dark .navbar {
+  background-color: rgba(11, 15, 25, 0.85);
+}
+
+.navbar-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.8rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-brand {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.nav-link {
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+.nav-link:hover, .nav-link.active {
+  color: var(--accent-primary);
+  background-color: var(--bg-secondary);
+}
+
+/* 主題切換按鈕 */
+.theme-toggle-btn {
+  background: none;
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 0.5rem;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+.theme-toggle-btn:hover {
+  background-color: var(--bg-secondary);
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+}
+
+/* 主體內容 */
+.main-content {
+  flex: 1;
+}
+
+.section-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 5rem 2rem;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 3.5rem;
+}
+
+.section-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 0.8rem;
+  position: relative;
+  display: inline-block;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 3px;
+  background-color: var(--accent-primary);
+  border-radius: 2px;
+}
+
+.section-subtitle {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* 頁尾 */
+.footer {
+  background-color: var(--bg-secondary);
+  border-top: 1px solid var(--border-color);
+  padding: 3rem 2rem;
+  text-align: center;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-brand {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.footer-text {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* ==========================================================================
+   5. 首頁 Hero 區 (含打字特效)
+   ========================================================================== */
+.hero-section {
+  background: radial-gradient(circle at top right, var(--bg-secondary), var(--bg-primary) 70%);
+  border-bottom: 1px solid var(--border-color);
+  padding: 6rem 2rem;
+  display: flex;
+  align-items: center;
+  min-height: calc(85vh - 70px);
+}
+
+.hero-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.hero-info h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+}
+
+.hero-info h1 span.highlight {
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-desc {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  max-width: 550px;
+}
+
+.hero-cta {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.6rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background-color: var(--accent-primary);
+  color: #ffffff;
+  border: none;
+}
+.btn-primary:hover {
+  background-color: var(--accent-secondary);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--accent-glow);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+.btn-secondary:hover {
+  background-color: var(--bg-secondary);
+  transform: translateY(-2px);
+}
+
+/* 打字特效動畫裝飾區 */
+.hero-visual {
+  display: flex;
+  justify-content: center;
+}
+
+.visual-console {
+  width: 100%;
+  max-width: 480px;
+  background-color: var(--code-bg);
+  border-radius: 12px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.25), 0 10px 10px -5px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.console-header {
+  background-color: rgba(255, 255, 255, 0.03);
+  padding: 0.8rem 1.2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.console-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.console-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.console-dot.red { background-color: #ef4444; }
+.console-dot.yellow { background-color: #f59e0b; }
+.console-dot.green { background-color: #10b981; }
+
+.console-title {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.console-body {
+  padding: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  color: var(--code-text);
+  min-height: 250px;
+  display: flex;
+  flex-direction: column;
+}
+
+.console-line {
+  margin-bottom: 0.5rem;
+}
+
+.console-prompt {
+  color: #10b981;
+  margin-right: 0.5rem;
+  user-select: none;
+}
+
+.console-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 15px;
+  background-color: var(--accent-primary);
+  margin-left: 4px;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  from, to { background-color: transparent }
+  50% { background-color: var(--accent-primary) }
+}
+
+.console-divider {
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+  margin: 1rem 0;
+}
+
+.console-output-preview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  background-color: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.console-output-preview .katex {
+  font-size: 1.4rem;
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   6. 「何謂 LaTeX」對比區
+   ========================================================================== */
+.what-is-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.intro-text p {
+  margin-bottom: 1.2rem;
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+}
+
+.intro-text strong {
+  color: var(--text-primary);
+}
+
+.intro-features {
+  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.feature-box {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: var(--card-shadow);
+  transition: all 0.3s ease;
+}
+.feature-box:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--card-shadow-hover);
+  border-color: var(--accent-primary);
+}
+
+.feature-icon-wrapper {
+  color: var(--accent-primary);
+  margin-bottom: 0.8rem;
+}
+
+.feature-box h4 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.feature-box p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* Word vs LaTeX 對比卡 */
+.comparison-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.comparison-header {
+  padding: 1.2rem 1.5rem;
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.comparison-header h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.comparison-toggle {
+  display: flex;
+  background-color: var(--bg-tertiary);
+  padding: 2px;
+  border-radius: 6px;
+}
+
+.toggle-btn {
+  background: none;
+  border: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: all 0.2s ease;
+}
+.toggle-btn.active {
+  background-color: var(--card-bg);
+  color: var(--accent-primary);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.comparison-content {
+  padding: 2rem;
+  flex: 1;
+}
+
+.comparison-side {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.route-page-fade {
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.side-title-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.side-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+}
+.side-badge.word {
+  background-color: #eff6ff;
+  color: #1d4ed8;
+}
+.side-badge.latex {
+  background-color: #f5f3ff;
+  color: #6d28d9;
+}
+
+.comparison-side ul {
+  list-style: none;
+}
+
+.comparison-side li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.8rem;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+.comparison-side li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #10b981;
+  font-weight: bold;
+}
+body.dark .side-badge.word {
+  background-color: rgba(29, 78, 216, 0.2);
+  color: #60a5fa;
+}
+body.dark .side-badge.latex {
+  background-color: rgba(109, 40, 217, 0.2);
+  color: #a78bfa;
+}
+
+.comparison-footer {
+  padding: 1.2rem 2rem;
+  background-color: var(--bg-secondary);
+  border-top: 1px solid var(--border-color);
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   7. 歷史時間軸樣式 (HistoryTimeline)
+   ========================================================================== */
+.history-timeline-container {
+  margin-top: 1.5rem;
+}
+
+.timeline-layout {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 3.5rem;
+  align-items: start;
+}
+
+.timeline-nav {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+  padding-left: 1rem;
+}
+
+.timeline-line {
+  position: absolute;
+  left: 27px; /* 根據 marker 的中心微調 */
+  top: 15px;
+  bottom: 15px;
+  width: 2px;
+  background-color: var(--border-color);
+  z-index: 1;
+}
+
+.timeline-node {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  width: 100%;
+  z-index: 2;
+  outline: none;
+}
+
+.node-marker {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--card-bg);
+  border: 2px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  box-shadow: var(--card-shadow);
+  transition: all 0.3s ease;
+}
+
+.node-icon {
+  transition: transform 0.3s ease;
+}
+
+.node-label {
+  margin-left: 1.2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.node-year {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  line-height: 1.1;
+  transition: color 0.3s ease;
+}
+
+.node-title-short {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+  transition: color 0.3s ease;
+}
+
+/* 懸停與選中樣式 */
+.timeline-node:hover .node-marker {
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+  transform: scale(1.1);
+}
+.timeline-node:hover .node-year {
+  color: var(--text-primary);
+}
+
+.timeline-node.active .node-marker {
+  background-color: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: #ffffff;
+  box-shadow: 0 0 12px var(--accent-glow);
+}
+.timeline-node.active .node-icon {
+  transform: scale(1.15);
+}
+.timeline-node.active .node-year {
+  color: var(--accent-primary);
+}
+.timeline-node.active .node-title-short {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+/* 詳細內容展示卡 */
+.timeline-content-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 2.5rem;
+  box-shadow: var(--card-shadow-hover);
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  animation: fadeIn 0.3s ease;
+}
+
+.card-year {
+  font-size: 2.8rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--accent-primary);
+  font-family: var(--font-serif);
+  opacity: 0.9;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.card-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+  line-height: 1.4;
+}
+
+.card-author {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  margin-bottom: 1.8rem;
+}
+
+.card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-summary {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 1.2rem;
+  line-height: 1.6;
+}
+
+.card-divider {
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 1.2rem;
+}
+
+.card-details {
+  font-size: 0.98rem;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+}
+
+.fun-fact-box {
+  background-color: var(--bg-secondary);
+  border-left: 4px solid var(--accent-primary);
+  border-radius: 0 8px 8px 0;
+  padding: 1.2rem;
+  margin-top: auto;
+}
+
+.fun-fact-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: bold;
+  color: var(--accent-primary);
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.fun-fact-text {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* ==========================================================================
+   8. 學習與語法速查樣式 (CheatSheet & Learning)
+   ========================================================================== */
+.learning-guide-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 3.5rem;
+  margin-bottom: 4rem;
+}
+
+.learning-path h3 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.path-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.path-step {
+  display: flex;
+  gap: 1.2rem;
+}
+
+.step-num {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--accent-glow);
+  color: var(--accent-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.step-content h4 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+}
+
+.step-content p {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+.tools-resources h3 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.resource-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.resource-card-mini {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  padding: 1.2rem;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--card-shadow);
+  transition: all 0.3s ease;
+}
+.resource-card-mini:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--card-shadow-hover);
+  border-color: var(--accent-primary);
+}
+
+.res-info h4 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+
+.res-info p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.res-link {
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* CheatSheet Tab */
+.cheat-sheet-container {
+  margin-top: 2rem;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  padding: 2rem;
+  border-radius: 16px;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.cheat-sheet-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.cheat-sheet-tab-btn {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--card-shadow);
+}
+.cheat-sheet-tab-btn:hover {
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+  transform: translateY(-1px);
+}
+.cheat-sheet-tab-btn.active {
+  background-color: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: #ffffff;
+  box-shadow: 0 4px 8px var(--accent-glow);
+}
+
+.cheat-sheet-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.cheat-sheet-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--card-shadow);
+  transition: all 0.3s ease;
+}
+.cheat-sheet-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--card-shadow-hover);
+}
+
+.cheat-sheet-card .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.8rem;
+}
+
+.cheat-sheet-card .card-header h4 {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.copy-btn {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s ease;
+}
+.copy-btn:hover {
+  background-color: var(--border-focus);
+  color: var(--text-primary);
+}
+.copy-btn.copied {
+  background-color: #10b981;
+  border-color: #10b981;
+  color: #ffffff;
+}
+
+.cheat-sheet-card .card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.math-preview-container {
+  background-color: var(--math-bg);
+  border: 1px solid var(--math-border);
+  padding: 1rem;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60px;
+}
+
+.katex-rendered-inline {
+  font-size: 1.15rem;
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.code-block {
+  background-color: var(--code-bg);
+  padding: 0.8rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  margin: 0;
+}
+
+.code-block code {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--code-text);
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.cheat-sheet-card .card-footer {
+  margin-top: 1rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border-color);
+  padding-top: 0.6rem;
+}
+
+.info-icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.cheat-sheet-card .card-footer p {
+  margin: 0;
+  line-height: 1.3;
+}
+
+/* ==========================================================================
+   9. 即時渲染沙盒樣式 (MathSandbox)
+   ========================================================================== */
+.math-sandbox-container {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--card-shadow-hover);
+}
+
+.sandbox-templates-bar {
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.templates-label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.templates-list {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.template-btn {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0.35rem 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.template-btn:hover {
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+}
+
+.sandbox-workspace {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  min-height: 620px;
+}
+
+.sandbox-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.editor-panel {
+  border-right: 1px solid var(--border-color);
+}
+
+.panel-header {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.panel-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+}
+
+.panel-title h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.panel-action-btn {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+.panel-action-btn:hover {
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+.panel-action-btn.copied {
+  background-color: #10b981;
+  border-color: #10b981;
+  color: #ffffff;
+}
+
+/* 快速插入工具欄 */
+.quick-insert-toolbar {
+  padding: 0.6rem 1.2rem;
+  background-color: var(--bg-primary);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  gap: 0.4rem;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.quick-insert-btn {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-size: 0.72rem;
+  font-weight: 500;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.quick-insert-btn:hover {
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+  background-color: var(--card-bg);
+}
+
+.textarea-wrapper {
+  flex: 1;
+  position: relative;
+  display: flex;
+}
+
+.sandbox-textarea {
+  width: 100%;
+  height: 100%;
+  min-height: 250px;
+  padding: 1.2rem 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  border: none;
+  outline: none;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.editor-tips {
+  padding: 0.8rem 1.5rem;
+  background-color: var(--bg-secondary);
+  border-top: 1px solid var(--border-color);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* 渲染預覽面板 */
+.preview-panel {
+  background-color: var(--math-bg);
+}
+
+.preview-display {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  overflow-x: auto;
+}
+
+.rendered-output {
+  width: 100%;
+  text-align: center;
+  overflow-x: auto;
+  padding: 1rem 0;
+}
+
+.rendered-output .katex-display {
+  margin: 0;
+}
+
+.rendered-output .katex {
+  font-size: 1.8rem;
+}
+
+.placeholder-text {
+  color: var(--text-muted);
+  font-style: italic;
+  font-size: 0.95rem;
+}
+
+.spinning-icon-hover {
+  transition: transform 0.5s ease;
+}
+.preview-panel:hover .spinning-icon-hover {
+  transform: rotate(60deg);
+}
+
+/* ==========================================================================
+   10. 響應式排版調整 (RWD)
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    text-align: center;
+  }
+  .hero-visual {
+    order: -1;
+  }
+  .hero-info h1 {
+    font-size: 2.5rem;
+  }
+  .hero-desc {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hero-cta {
+    justify-content: center;
+  }
+  
+  .what-is-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  
+  .timeline-layout {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  .timeline-nav {
+    padding-left: 0;
+    max-height: 250px;
+    overflow-y: auto;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    background-color: var(--bg-secondary);
+  }
+  .timeline-line {
+    display: none;
+  }
+  .node-label {
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+  }
+  .node-title-short {
+    max-width: 100%;
+  }
+  
+  .learning-guide-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  
+  .sandbox-workspace {
+    grid-template-columns: 1fr;
+  }
+  .editor-panel {
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar-content {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .nav-links {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .section-container {
+    padding: 3rem 1rem;
+  }
+  .hero-section {
+    padding: 4rem 1rem;
+  }
+  .hero-info h1 {
+    font-size: 2.2rem;
+  }
+  .cheat-sheet-tab-btn {
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
+  }
+}
+
+/* 寬螢幕特化：LaTeX 沙盒全介面佈局 */
+.sandbox-page-container {
+  width: 96%;
+  max-width: 1720px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+}
+
+@media (max-width: 1024px) {
+  .sandbox-page-container {
+    width: 100%;
+    padding: 2rem 1rem;
+  }
+}
