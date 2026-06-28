@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Sun, Moon, Info, ArrowUpRight, CheckCircle, Code, GraduationCap, History, BookOpen } from 'lucide-react';
+import { Info, ArrowUpRight, CheckCircle, Code, GraduationCap, History, BookOpen } from 'lucide-react';
 import HistoryTimeline from './components/HistoryTimeline';
 import CheatSheet, { Latexy } from './components/CheatSheet';
 import MathSandbox from './components/MathSandbox';
@@ -11,7 +11,6 @@ const typingFormulas = [
 ];
 
 export default function App() {
-  const [darkMode, setDarkMode] = useState(false);
   const [currentRoute, setCurrentRoute] = useState(window.location.hash || '#/');
   const [wordVsLatexTab, setWordVsLatexTab] = useState('latex');
 
@@ -23,15 +22,6 @@ export default function App() {
   // 衍生狀態：當打完公式時，即時渲染
   const currentFormula = typingFormulas[typingIndex];
   const showRendered = typedText === currentFormula.code;
-
-  // Theme effect
-  useEffect(() => {
-    if (darkMode) {
-      document.body.classList.add('dark');
-    } else {
-      document.body.classList.remove('dark');
-    }
-  }, [darkMode]);
 
   // Routing synchronization
   useEffect(() => {
@@ -303,13 +293,7 @@ export default function App() {
 
   // 4. 語法速查 (CheatSheet) 視圖
   const renderCheatSheet = () => (
-    <div className="route-page-fade section-container">
-      <div className="section-header">
-        <h2 className="section-title">LaTeX 語法速查大全</h2>
-        <p className="section-subtitle">
-          按分類彙整最常用且極具代表性的 LaTeX 排版語法與數學符號，點擊卡片即可快速複製。
-        </p>
-      </div>
+    <div className="route-page-fade cheat-sheet-page-container">
       <CheatSheet />
     </div>
   );
@@ -445,13 +429,6 @@ export default function App() {
             <a href="#/cheat-sheet" className={`nav-link ${currentRoute === '#/cheat-sheet' ? 'active' : ''}`}>語法速查</a>
             <a href="#/learning" className={`nav-link ${currentRoute === '#/learning' ? 'active' : ''}`}>學習資源</a>
             <a href="#/sandbox" className={`nav-link ${currentRoute === '#/sandbox' ? 'active' : ''}`}>即時沙盒</a>
-            <button 
-              className="theme-toggle-btn"
-              onClick={() => setDarkMode(!darkMode)}
-              title={darkMode ? '切換為淺色模式' : '切換為深色模式'}
-            >
-              {darkMode ? <Sun size={18} /> : <Moon size={18} />}
-            </button>
           </div>
         </div>
       </nav>
@@ -475,7 +452,7 @@ export default function App() {
             <span>資源網 ── 完美的排版藝術與科學</span>
           </div>
           <p className="footer-text">
-            © {new Date().getFullYear()} LaTeX 資源網. 本專案基於 React、Vite、Vanilla CSS 與 KaTeX 建置。
+            © {new Date().getFullYear()} LaTeX 資源網. 此資源網基於 React、Vite、Vanilla CSS 與 KaTeX 建置。
           </p>
         </div>
       </footer>
