@@ -2,32 +2,6 @@ import { useState, useRef } from 'react';
 import { Latexy } from './CheatSheet';
 import { HelpCircle, Code, Settings, Copy, Check } from 'lucide-react';
 
-const templates = [
-  {
-    name: '薛丁格方程式 (量子力學)',
-    code: 'i\\hbar\\frac{\\partial}{\\partial t}\\Psi(\\mathbf{r},t) = \\left[-\\frac{\\hbar^2}{2m}\\nabla^2 + V(\\mathbf{r},t)\\right]\\Psi(\\mathbf{r},t)'
-  },
-  {
-    name: '傅立葉變換 (訊號處理)',
-    code: '\\hat{f}(\\xi) = \\int_{-\\infty}^{\\infty} f(x) e^{-2\\pi i x \\xi} dx'
-  },
-  {
-    name: '愛因斯坦場方程式 (廣義相對論)',
-    code: 'R_{\\mu\\nu} - \\frac{1}{2}R g_{\\mu\\nu} + \\Lambda g_{\\mu\\nu} = \\frac{8\\pi G}{c^4} T_{\\mu\\nu}'
-  },
-  {
-    name: '常態分佈機率密度 (統計學)',
-    code: 'f(x) = \\frac{1}{\\sigma\\sqrt{2\\pi}} e^{-\\frac{1}{2}\\left(\\frac{x-\\mu}{\\sigma}\\right)^2}'
-  },
-  {
-    name: '尤拉恆等式 (最美數學公式)',
-    code: 'e^{i\\pi} + 1 = 0'
-  },
-  {
-    name: '麥克斯韋方程組 (電磁學)',
-    code: '\\begin{aligned}\n  \\nabla \\cdot \\mathbf{E} &= \\frac{\\rho}{\\varepsilon_0} \\\\\n  \\nabla \\cdot \\mathbf{B} &= 0 \\\\\n  \\nabla \\times \\mathbf{E} &= -\\frac{\\partial \\mathbf{B}}{\\partial t} \\\\\n  \\nabla \\times \\mathbf{B} &= \\mu_0\\mathbf{J} + \\mu_0\\varepsilon_0\\frac{\\partial \\mathbf{E}}{\\partial t}\n\\end{aligned}'
-  }
-];
 
 const quickInserts = [
   { label: '分數', code: '\\frac{a}{b}' },
@@ -45,7 +19,7 @@ const quickInserts = [
 ];
 
 export default function MathSandbox() {
-  const [inputCode, setInputCode] = useState(templates[0].code);
+  const [inputCode, setInputCode] = useState('');
   const [copied, setCopied] = useState(false);
   const textareaRef = useRef(null);
 

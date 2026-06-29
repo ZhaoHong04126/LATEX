@@ -62,7 +62,9 @@ const categories = [
   { id: 'binomial', name: '9. 二項式係數', items: latexCategoryItems['binomial'] || [] },
   { id: 'arrows', name: '10. 箭號', items: latexCategoryItems['arrows'] || [] },
   { id: 'delimiters', name: '11. 分隔符號', items: latexCategoryItems['delimiters'] || [] },
-  { id: 'greek-letters', name: '12. 希臘字母', items: latexCategoryItems['greek-letters'] || [] },
+  { id: 'greek-letters-title', name: '12. 希臘文字', isHeaderOnly: true },
+  { id: 'greek-letters-upper', name: '12.1 大寫', items: latexCategoryItems['greek-letters-upper'] || [], isSubItem: true },
+  { id: 'greek-letters-lower', name: '12.2 小寫', items: latexCategoryItems['greek-letters-lower'] || [], isSubItem: true },
   { id: 'arrays-equations', name: '13. 陣列與方程式', items: latexCategoryItems['arrays-equations'] || [] },
   { id: 'spaces', name: '14. 空格', items: latexCategoryItems['spaces'] || [] },
   { id: 'fonts', name: '15. 書寫時，英文字體顯示', items: latexCategoryItems['fonts'] || [] },
@@ -88,15 +90,24 @@ export default function CheatSheet() {
       <aside className="cheat-sheet-sidebar">
         <h3 className="sidebar-title">速查分類</h3>
         <div className="cheat-sheet-tabs">
-          {categories.map((cat) => (
-            <button
-              key={cat.id}
-              className={`cheat-sheet-tab-btn ${activeTab === cat.id ? 'active' : ''}`}
-              onClick={() => setActiveTab(cat.id)}
-            >
-              {cat.name}
-            </button>
-          ))}
+          {categories.map((cat) => {
+            if (cat.isHeaderOnly) {
+              return (
+                <div key={cat.id} className="sidebar-group-header">
+                  {cat.name}
+                </div>
+              );
+            }
+            return (
+              <button
+                key={cat.id}
+                className={`cheat-sheet-tab-btn ${cat.isSubItem ? 'sub-item' : ''} ${activeTab === cat.id ? 'active' : ''}`}
+                onClick={() => setActiveTab(cat.id)}
+              >
+                {cat.name}
+              </button>
+            );
+          })}
         </div>
       </aside>
 
